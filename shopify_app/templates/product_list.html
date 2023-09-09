@@ -1,0 +1,80 @@
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+        <script src="https://cdn.tailwindcss.com"></script>
+    </head>
+    <body>
+        {% for message in messages %}
+            <p class="inline-flex justify-center bg-green-500 text-black shadow-lg text-center p-2 rounded-xl">{{ message }}</p>
+        {% endfor %}
+        <div class="mb-6 sm:mb-10 lg:mb-16 mx-6">
+            <h2 class="mb-4 text-center text-2xl font-bold text-gray-800 md:mb-6 lg:text-3xl">Collection of products</h2>
+            <a href="{% url 'create_product' %}" class="mb-4 text-center text-xl font-bold text-gray-800 md:mb-6 lg:text-3xl border p-2 border-black focus:border-4 focus:shadow"> &#43; Create product</a>
+            <a href="{% url 'welcome' %}" class="mb-4 text-center text-xl font-bold text-gray-800 md:mb-6 lg:text-3xl border p-2 border-black focus:border-4 focus:shadow"> &#43; Welcome page</a>
+        </div>
+        <div class="grid grid-cols-4 gap-4 m-4">
+            {% for product in products %}
+            <form method="POST" action="{% url 'delete' product.id %}">
+            {% csrf_token %}
+            <div class="card flex flex-col justify-center p-10 bg-white rounded-lg border border-gray-700">
+                <div class="prod-title">
+                <a href="{% url 'details' product.id %}">
+                    <p class="text-2xl uppercase text-gray-900 hover:text-blue-500 font-bold">{{ product.title }}</p>
+                </a>
+                <p class="uppercase text-sm text-gray-400">
+                    {{ product.description }}
+                </p>
+                </div>
+                <div class="prod-img">
+                <img src="{{ product.image.src }}"
+                    class="w-full object-cover object-center" />
+                </div>
+                <div class="prod-info grid gap-10">
+                <div>
+                    <ul class="flex flex-row justify-center items-center">
+                    <li class="mr-4 last:mr-0">
+                        <span
+                            class="block p-1 border-2 border-gray-500 rounded-full transition ease-in duration-300">
+                        <a href="#blue" class="block w-6 h-6 bg-blue-900 rounded-full"></a>
+                        </span>
+                    </li>
+                    <li class="mr-4 last:mr-0">
+                        <span
+                            class="block p-1 border-2 border-white hover:border-gray-500 rounded-full transition ease-in duration-300">
+                        <a href="#yellow" class="block w-6 h-6 bg-yellow-500 rounded-full"></a>
+                        </span>
+                    </li>
+                    <li class="mr-4 last:mr-0">
+                        <span
+                            class="block p-1 border-2 border-white hover:border-gray-500 rounded-full transition ease-in duration-300">
+                        <a href="#red" class="block w-6 h-6 bg-red-500 rounded-full"></a>
+                        </span>
+                    </li>
+                    <li class="mr-4 last:mr-0">
+                        <span
+                            class="block p-1 border-2 border-white hover:border-gray-500 rounded-full transition ease-in duration-300">
+                        <a href="#green" class="block w-6 h-6 bg-green-500 rounded-full"></a>
+                        </span>
+                    </li>
+                    </ul>
+                </div>
+                <div class="flex flex-col md:flex-row justify-between items-center text-gray-900">
+                    <p class="font-bold text-xl">{{ product.price}}</p>
+                    <button
+                            class="px-6 py-2 transition ease-in duration-200 uppercase rounded-full hover:bg-gray-800 hover:text-white border-2 border-gray-900 focus:outline-none">Add
+                    to cart</button>
+                </div>
+                <button type="submit">delete</button>
+                </div>
+            </div>
+            </form>
+            {% endfor %}
+        </div>
+    </body>
+</html>

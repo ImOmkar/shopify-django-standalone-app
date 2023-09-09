@@ -1,0 +1,68 @@
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+        <script src="https://cdn.tailwindcss.com"></script>
+    </head>
+    <body>
+        
+            <p class="text-3xl text-center p-4 bg-black text-white">
+                Shop name - {{ shop }}
+            </p>
+            {% for message in messages %}
+                <p class="inline-flex justify-center bg-green-500 text-black shadow-lg text-center p-2 rounded-xl">{{ message }}</p>
+            {% endfor %}
+
+            <div class="bg-white py-6 sm:py-8 lg:py-12">
+                <div class="mx-auto max-w-screen-lg px-4 md:px-8">
+                    <div class="mb-6 sm:mb-10 lg:mb-16">
+                        <h2 class="mb-4 text-center text-2xl font-bold text-gray-800 md:mb-6 lg:text-3xl">
+                            <a href="{% url 'welcome' %}"><span class="mr-20">&#8592;</span></a>
+                            Details of product - {{ product.title }}
+                        </h2>
+                        <a href="{% url 'create_product' %}" class="mb-4 text-center text-xl font-bold text-gray-800 md:mb-6 lg:text-xl border p-2 border-black focus:border-4 focus:shadow"> &#43; Create product</a>
+                        <a href="{% url 'update' product.id %}" class="mb-4 text-center text-xl font-bold text-gray-800 md:mb-6 lg:text-xl border p-2 border-black focus:border-4 focus:shadow"> &#43; Update product</a>
+                    </div>
+
+                    <!-- product - start -->
+                    <div class="flex flex-wrap gap-x-4 overflow-hidden rounded-lg border sm:gap-y-4 lg:gap-6">
+                        <a href="#" class="group relative block h-48 w-32 overflow-hidden bg-gray-100 sm:h-56 sm:w-40">
+                            <img src="{{ product.image.src }}" loading="lazy" alt="Photo by Thái An" class="h-full w-full object-cover object-center transition duration-200 group-hover:scale-110" />
+                        </a>
+                
+                        <div class="flex flex-1 flex-col justify-between py-4">
+                            <div>
+                            <a href="{% url 'details' product.id %}" class="mb-1 inline-block text-lg font-bold text-gray-800 transition duration-100 hover:text-gray-500 lg:text-xl">{{ product.title }}</a>
+                            <span class="block text-gray-500">Vendor - {{ product.vendor }}</span>
+
+                            <span class="block text-gray-500">Type - {{ product.product_type }}</span>
+                            
+                            <span class="block text-gray-500">Variants: </span> 
+                            <ul class="ml-4">
+                                {% if product.variants %}
+                                    {% for variants in product.variants %}
+                                    <li class="block text-gray-500">
+                                        - {{ variants.title }} - ${{ variants.price }} - {% if variants.inventory_quantity %}{{ variants.inventory_quantity }} items left {% else %} out of stock {% endif %}
+                                    </li>
+                                    {% endfor %}
+                                {% endif %}
+                            </ul>
+                                
+        
+                            {% if product.tags %}<span class="block text-gray-500">Tags: {{ product.tags }}</span>{% endif %}
+                            </div>
+                
+                            <div>
+                                <span class="mb-1 block font-bold text-gray-800 md:text-lg">{{ product.price }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </body>
+</html>
